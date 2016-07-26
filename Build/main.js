@@ -60,13 +60,16 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(39);
 
+	var data = [{ id: 1, author: "Pete Hunt", text: "This is one comment" }, { id: 2, author: "Jordan Walke", text: "This is *another* comment" }];
 	var CommentBOX = React.createClass({
 	    displayName: 'CommentBOX',
+
 
 	    render: function render() {
 	        var hStyle = {
 	            color: 'white'
 	        };
+
 	        return React.createElement(
 	            'div',
 	            { className: 'commentBox' },
@@ -75,7 +78,7 @@
 	                { style: hStyle },
 	                'Hello,this si comment box'
 	            ),
-	            React.createElement(CommentList, null),
+	            React.createElement(CommentList, { data: this.props.data }),
 	            React.createElement(CommentForm, null)
 	        );
 	    }
@@ -84,14 +87,17 @@
 	    displayName: 'CommentList',
 
 	    render: function render() {
+	        var CommentNode = this.props.data.map(function (comments) {
+	            return React.createElement(
+	                Comment,
+	                { key: comments.id, user: comments.author },
+	                comments.text
+	            );
+	        });
 	        return React.createElement(
 	            'ul',
 	            { className: 'list-group' },
-	            React.createElement(
-	                Comment,
-	                { user: 'Ayan' },
-	                'That\'s really looking nice'
-	            )
+	            CommentNode
 	        );
 	    }
 	});
@@ -142,7 +148,7 @@
 	    }
 	});
 
-	ReactDOM.render(React.createElement(CommentBOX, null), document.querySelector('#app'));
+	ReactDOM.render(React.createElement(CommentBOX, { data: data }), document.querySelector('#app'));
 
 /***/ },
 /* 2 */

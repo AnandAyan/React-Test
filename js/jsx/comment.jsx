@@ -1,23 +1,33 @@
 var React=require('react');
 var ReactDOM=require('react-dom');
 
+var data = [
+    {id: 1, author: "Pete Hunt", text: "This is one comment"},
+    {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+];
 var CommentBOX=React.createClass({
+
          render:function(){
              var hStyle = {
                  color: 'white'
              };
+
              return(<div className="commentBox">
              <h1 style={hStyle}>Hello,this si comment box</h1>
-                 <CommentList/>
+                 <CommentList data={this.props.data}/>
                  <CommentForm/>
              </div>)
          }
 });
 var CommentList=React.createClass({
     render:function(){
+        var CommentNode=this.props.data.map(function(comments) {
+                  return(  <Comment key={comments.id} user={comments.author}>{comments.text}</Comment>);
+            }
+        );
         return(
             <ul className="list-group">
-                 <Comment user="Ayan">That's really looking nice</Comment>
+                {CommentNode}
             </ul>
         )
     }
@@ -50,4 +60,4 @@ var CommentForm=React.createClass({
 });
 
 
-ReactDOM.render(<CommentBOX/>,document.querySelector('#app'));
+ReactDOM.render(<CommentBOX data={data}/>,document.querySelector('#app'));
